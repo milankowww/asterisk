@@ -43,7 +43,10 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends --no-i
     odbcinst \
     uuid \
     uuid-dev \
-    xmlstarlet
+    xmlstarlet \
+    dahdi \
+    dahdi-source \
+    libtonezone-dev
 
 apt-get purge -y --auto-remove
 rm -rf /var/lib/apt/lists/*
@@ -57,7 +60,7 @@ curl -vsL http://downloads.asterisk.org/pub/telephony/certified-asterisk/release
 # 1.5 jobs per core works out okay
 : ${JOBS:=$(( $(nproc) + $(nproc) / 2 ))}
 
-./configure  --with-resample --with-pjproject-bundled
+./configure  --with-resample --with-pjproject-bundled --with-dahdi --with-tonezone
 make menuselect/menuselect menuselect-tree menuselect.makeopts
 
 # disable BUILD_NATIVE to avoid platform issues
@@ -81,6 +84,10 @@ menuselect/menuselect --enable BETTER_BACKTRACES menuselect.makeopts
 menuselect/menuselect --disable-category MENUSELECT_CORE_SOUNDS
 menuselect/menuselect --disable-category MENUSELECT_MOH
 menuselect/menuselect --disable-category MENUSELECT_EXTRA_SOUNDS
+
+# meetme
+menuselect/menuselect --enable CHAN_DAHDI  menuselect.makeopts
+menuselect/menuselect --enable APP_MEETME  menuselect.makeopts
 
 make -j ${JOBS} all
 make install

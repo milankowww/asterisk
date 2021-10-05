@@ -41,7 +41,10 @@ DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends --no-i
     odbcinst \
     uuid \
     uuid-dev \
-    xmlstarlet
+    xmlstarlet \
+    dahdi \
+    dahdi-source \
+    libtonezone-dev
 
 apt-get purge -y --auto-remove
 rm -rf /var/lib/apt/lists/*
@@ -58,7 +61,9 @@ curl -vsL http://downloads.asterisk.org/pub/telephony/asterisk/old-releases/aste
 
 ./configure --with-resample \
             --with-pjproject-bundled \
-            --with-jansson-bundled
+            --with-jansson-bundled \
+            --with-dahdi \
+	    --with-tonezone
 make menuselect/menuselect menuselect-tree menuselect.makeopts
 
 # disable BUILD_NATIVE to avoid platform issues
@@ -85,6 +90,10 @@ menuselect/menuselect --enable chan_ooh323 menuselect.makeopts
 menuselect/menuselect --disable-category MENUSELECT_CORE_SOUNDS menuselect.makeopts
 menuselect/menuselect --disable-category MENUSELECT_MOH menuselect.makeopts
 menuselect/menuselect --disable-category MENUSELECT_EXTRA_SOUNDS menuselect.makeopts
+
+# meetme
+menuselect/menuselect --enable CHAN_DAHDI  menuselect.makeopts
+menuselect/menuselect --enable APP_MEETME  menuselect.makeopts
 
 make -j ${JOBS} all
 make install
