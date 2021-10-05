@@ -46,6 +46,7 @@ RUN yum -y install gcc gcc-c++ cpp ncurses ncurses-devel libxml2 libxml2-devel o
     --enable res_convert \
     --enable res_musiconhold \
     --enable res_timing_timerfd \
+    --enable DONT_OPTIMIZE \
     --disable BUILD_NATIVE \
   menuselect.makeopts \
   && make config \
@@ -126,6 +127,7 @@ RUN yum -y install gcc gcc-c++ cpp ncurses ncurses-devel libxml2 libxml2-devel o
 #   --enable res_timing_timerfd \
 #   --enable func_callcompletion \
 #   --enable func_callerid \
+#   --enable DONT_OPTIMIZE \
 #   --disable BUILD_NATIVE \
 #   menuselect.makeopts \
 #   && make config \

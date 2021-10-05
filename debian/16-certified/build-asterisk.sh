@@ -67,8 +67,9 @@ curl -vsL http://downloads.asterisk.org/pub/telephony/certified-asterisk/release
 	    --with-tonezone
 make menuselect/menuselect menuselect-tree menuselect.makeopts
 
-# disable BUILD_NATIVE to avoid platform issues
+# disable BUILD_NATIVE and enable DONT_OPTIMIZE to avoid platform issues
 menuselect/menuselect --disable BUILD_NATIVE menuselect.makeopts
+menuselect/menuselect --enable DONT_OPTIMIZE menuselect.makeopts
 
 # enable good things
 menuselect/menuselect --enable BETTER_BACKTRACES menuselect.makeopts
